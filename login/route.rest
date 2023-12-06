@@ -1,0 +1,22 @@
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+    "firstName": "abd",
+    "lastName": "Lee",
+    "userName": "onetwothree@gmail.com",
+    "password": "1234567Abc!",
+    "confirmPassword": ""
+}
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "userName": "onetwo@gmail.com",
+    "password": "1234Wxy$"
+}
+
+###
+GET http://localhost:3000/dashboard

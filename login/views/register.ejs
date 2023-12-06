@@ -1,0 +1,77 @@
+<h1>Sign Up</h1>
+<form>
+    <div>
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" >
+    </div>
+    <div>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" >
+    </div>
+    <div>
+        <label for="userName">User Name:</label>
+        <input type="email" id="userName" name="userName" placeholder="your email address" >
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" >
+    </div>
+    <div>
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" >
+    </div>
+
+    <button type="submit">Sign up</button>
+</form>
+<div class="error-messages"></div>
+<div id="success-message"></div>
+<a href="/login">Login</a>
+
+<script>
+    const form = document.querySelector('form');
+    var errMessage = document.querySelector('.error-messages');
+    var successfulMessage = document.querySelector('#success-message');
+
+    form.addEventListener('submit',async (e) => {
+        e.preventDefault();
+
+        errMessage.innerHTML = '';
+        successfulMessage.innerHTML = '';
+
+        const formData = new FormData(form);
+        await fetch('/signup',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify({
+                        firstName: formData.get('firstName'),
+                        lastName: formData.get('lastName'),
+                        userName: formData.get('userName'),
+                        password: formData.get('password'),
+                        confirmPassword: formData.get('confirmPassword')
+                    })
+                })
+                .then((res) => {
+                    return res.json()
+                })
+                .then(data => {
+                        console.log(data.errors);
+
+                        if(data.errors){
+                            data.errors.forEach(err => {
+                                const li = document.createElement('li');
+                                li.textContent = err.msg;
+                                errMessage.appendChild(li);
+                            });
+                        }
+                        else{
+                            successfulMessage.textContent = data.message;
+                        }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+    })
+</script>
