@@ -3,9 +3,9 @@ const User = require("../models/users.model");
 
 exports.validateTokenAuthorization = async (req,res,next) => {
     let token;
-    if(req.params && req.params.t)
+    if(req.cookies && req.cookies.accessToken)
     {
-        token = req.params.t;
+        token = req.cookies.accessToken;
     }
     else
     {
@@ -38,6 +38,7 @@ exports.validateTokenAuthorization = async (req,res,next) => {
         
     }
     catch(err){
+        res.clearCookie("accessToken");
         if(err.name === 'TokenExpiredError')
         {
             return res.json({message: "Session expired. Please log in again"});

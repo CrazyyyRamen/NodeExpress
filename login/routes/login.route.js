@@ -38,6 +38,10 @@ router.post('/',loginUserValidator, async (req,res,next)=>{
                     {expiresIn : "3m"});
 
                     logHelper.logUser(req,existUser);
+                    res.cookie("accessToken", accessToken, {
+                        httpOnly: true
+                    })
+
                     return res.json({t:accessToken});
                 }
                 else

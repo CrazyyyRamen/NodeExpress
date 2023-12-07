@@ -3,6 +3,8 @@ require('dotenv').config();
 const express = require("express");
 const app = express();
 
+const cookieParser = require("cookie-parser");
+
 const mongoose = require("mongoose");
 mongoose.connect(process.env.DATABASE_URL);
 const db = mongoose.connection;
@@ -18,6 +20,7 @@ db.once('open',() => console.log('Connected to databse'))
 app.set('view engine','ejs');
 app.use(express.urlencoded({extended: false}))
 app.use(express.json());
+app.use(cookieParser());
 
 const signupRouter = require("./routes/signup.route.js");
 const loginRouter = require("./routes/login.route.js");

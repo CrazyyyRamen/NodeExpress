@@ -18,5 +18,5 @@ exports.errorHandle = async (error, req, res, next) =>{
         await errorLog.save();
     }
 
-    res.redirect('./error');
+    //res.redirect('./error');
 }
